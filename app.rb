@@ -11,7 +11,6 @@ class RPS < Sinatra::Base
 
   post '/names' do
     $player1 = Player.new(params[:player_name])
-    #$cpu = Cpu.new
     redirect '/play'
   end
 

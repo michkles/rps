@@ -15,8 +15,20 @@ subject { Game.new(player_1, cpu) }
     expect(subject.cpu).to eq cpu
   end
 
-  it 'should return a winner' do
-    expect(subject.battle(player_1, cpu)).to eq 'cpu wins'
+  it 'should return player lost' do
+    expect(subject.result(player_1, cpu)).to eq 'lost'
   end
+
+  it 'should return player won' do
+    allow(cpu).to receive(:type).and_return('scissors')
+    expect(subject.result(player_1, cpu)).to eq 'won'
+  end
+
+  it 'should return a tie' do
+    allow(cpu).to receive(:type).and_return('rock')
+    expect(subject.result(player_1, cpu)).to eq 'tied'
+  end
+
+
 
 end
