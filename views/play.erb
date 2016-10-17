@@ -1,4 +1,4 @@
-<h1><%= @player %> versus CPU</h1>
+<h1><%= @game.player_1.name %> versus CPU</h1>
 <h2>Now choose your weapon:</h2>
 <form action='/rock' method="post">
   <input type="submit" name="rock" value="Rock">
@@ -9,4 +9,5 @@
 <form action='/scissors' method="post">
   <input type="submit" name="scissors" value="Scissors">
 </form>
-<p>CPU has chosen <%= @cpu_weapon %></p>
+<p><%= @game.player_1.name %> has chosen <%= @selection %></p>
+<p>CPU has chosen <%= @game.cpu.weapon %></p>

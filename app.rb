@@ -1,38 +1,52 @@
 require 'sinatra/base'
 require './lib/player.rb'
 require './lib/cpu.rb'
+require './lib/game.rb'
+require 'coveralls'
+require 'simplecov'
+
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+Coveralls.wear! 
 
 class RPS < Sinatra::Base
   enable :sessions
+
+  before do
+    @game = Game.instance
+  end
 
   get '/' do
     erb :index
   end
 
   post '/names' do
-    $player1 = Player.new(params[:player_name])
+    player_1 = Player.new(params[:player_name])
+    cpu = Cpu.new
+    @game = Game.create(player_1, cpu)
     redirect '/play'
   end
 
   get '/play' do
-    @player = $player1.name
-    @cpu_weapon = Cpu.new.weapon
-    @selection = $player1.type
+    @selection = @game.player_1.type
+    @cpu_selection = @game.cpu.weapon
     erb :play
   end
 
   post '/rock' do
-    @selection = $player1.weapon(params[:rock])
+    @selection = @game.player_1.weapon(params[:rock])
     redirect '/play'
   end
 
   post '/paper' do
-    @selection = $player1.weapon(params[:paper])
+    @selection =  @game.player_1.weapon(params[:paper])
     redirect '/play'
   end
 
   post '/scissors' do
-    @selection = $player1.weapon(params[:scissors])
+    @selection = @game.player_1.weapon(params[:scissors])
     redirect '/play'
   end
 
